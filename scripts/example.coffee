@@ -8,11 +8,56 @@
 #
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
 
-module.exports = (robot) ->
+just_sleep = [
+    "omg just let me sleep ꒰◍ᐡᐤᐡ◍꒱",
+    "neither, just sleep (´〜｀*) zzz",
+    "neither, coffee first (๑ᵕ⌓ᵕ̤)>c[_]",
+    "(∪｡∪)｡｡｡zzz"
+  ]
 
-  # robot.hear /badger/i, (res) ->
-  #   res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
-  #
+im_awake = [
+  "(⊙＿⊙')!!!", "（・□・；）", "(*ﾟﾛﾟ)", "(」゜ロ゜)」", "Σ(･口･)", "((((；゜Д゜)))", "( ꒪Д꒪)ノ", "(屮゜Д゜)屮",
+  "∑(;°Д°)", "(✿☉｡☉)", "(ﾉﾟοﾟ)ﾉ", "(ﾉ*0*)ﾉ", "（＞0＜；）", "(＃´Ｏ｀)", "╰། ◉ ◯ ◉ །╯", "⊙▂⊙", "(ʘᗩʘ’)",
+  "(´⊙ω⊙`)！", "┌╏ º □ º ╏┐ᵒᵐᵍᵎᵎᵎ", "║ ” ◕ ◯ ◕ ” ║ᵒᵐᵍᵎᵎᵎ", "∑(;°Д°)ᵒᵐᵍᵎᵎᵎ", "(๑o̴̶̷̥᷅﹏o̴̶̷̥᷅๑)ᵒᵐᵍᵎᵎᵎ"
+]
+
+module.exports = (robot) ->
+  robot.respond /what should i eat\?* (.*) or (.*?)\??$/i, (msg) ->
+    chosen_response = msg.random [1..5]
+    if chosen_response >= 3
+      msg.send msg.random just_sleep
+    else
+      msg.send "just eat #{msg.match[chosen_response]}"
+
+  robot.hear /.*!.*/, (msg) ->
+    msg.reply "what's that noise?!"
+
+
+  robot.hear /\bwake up\b/, (msg) ->
+    robot.brain.set('wake_count',
+    (robot.brain.get('wake_count') || 0) + 1)
+
+  robot.hear /are you awake\?/i, (msg) ->
+    msg.send "yes yes, my wake-o meter is at: " + (robot.brain.get('wake_count') || "0")
+
+
+  robot.respond /wake up/i, (msg) ->
+    msg.send msg.random im_awake
+
+#  robot.hear /badger/i, (res) ->
+#    res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
+
+
+#  robot.hear /hi/i, (res) ->
+#    res.send "Hello there!"
+
+
+
+
+
+
+
+
   # robot.respond /open the (.*) doors/i, (res) ->
   #   doorType = res.match[1]
   #   if doorType is "pod bay"
