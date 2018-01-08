@@ -6,8 +6,11 @@ stay awake.
 ### commands
 
 wake up : wake up the bot!
+
 wake up! : make some noise!
+
 are you awake? : see how awake the bot is!
+
 what should i eat? X or Y : find out what to eat!
 
 
